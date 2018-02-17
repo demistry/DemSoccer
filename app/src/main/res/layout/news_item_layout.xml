@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:weightSum="4"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp"
+    >
+
+    <ImageView
+        android:id="@+id/newsImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/no_image"
+
+        />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:background="#7fffffff">
+        <TextView
+            android:id="@+id/title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="21sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="Great Beginnings for Vintage Computing in Seattle; VCF PNW" />
+        <TextView
+            android:id="@+id/description_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:text="The pitch to my wife was simple: “Feel like spending the weekend in Seattle?” That’s how I ended up at the inaugural Vintage Computer Festival Pacific Northwest last weekend, and I’m glad we made the five-hour drive into The Big City to check it out. Hackaday…" />
+        <TextView
+            android:id="@+id/time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="2dp"
+            android:textAlignment="center"
+            android:background="@color/colorPrimary"
+            android:text="2018-02-17\n15:01:28"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
