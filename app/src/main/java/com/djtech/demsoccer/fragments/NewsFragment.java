@@ -50,7 +50,7 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
     public void onResume() {
         super.onResume();
         if(NewsSingleton.getInstance().getArrayList()!=null){
-            getLoaderManager().initLoader(0, null, this).stopLoading();
+            getLoaderManager().initLoader(0, null, this).cancelLoad();
             adapter = new NewsRecyclerViewAdapter(this.getContext(),NewsSingleton.getInstance().getArrayList());
             newsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
             newsRecyclerView.setAdapter(adapter);

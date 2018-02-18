@@ -28,6 +28,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     public NewsRecyclerViewAdapter(Context context,ArrayList<NewsModel> newsModels){
         this.data = data;
         this.newsModels = newsModels;
+        this.context = context;
     }
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
