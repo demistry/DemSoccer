@@ -75,7 +75,7 @@ public class NewsNetworkQueryClass extends AsyncTaskLoader<String> {
 
     public static ArrayList<NewsModel> processJSON(String jsonString){
         arrayList = new ArrayList<>();
-        String titleText, descriptionText, timeText, imageLink, dateText, dateTimeFormat, finalDateTimeString;
+        String titleText, descriptionText, timeText, imageLink, dateText, dateTimeFormat, finalDateTimeString, newsLink;
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONArray array = object.getJSONArray("articles");
@@ -85,12 +85,13 @@ public class NewsNetworkQueryClass extends AsyncTaskLoader<String> {
                 descriptionText = object1.getString("description");
                 imageLink = object1.getString("urlToImage");
                 dateTimeFormat = object1.getString("publishedAt");
+                newsLink = object1.getString("url");
                 timeText = dateTimeFormat.substring(11, dateTimeFormat.length()-1);
                 dateText = dateTimeFormat.substring(0,10);
                 finalDateTimeString = timeText + "\n" + dateText;
 
 
-                arrayList.add(new NewsModel(titleText, descriptionText, finalDateTimeString, imageLink));
+                arrayList.add(new NewsModel(titleText, descriptionText, newsLink, finalDateTimeString, imageLink));
             }
 
         } catch (JSONException e) {

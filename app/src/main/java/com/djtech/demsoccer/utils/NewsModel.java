@@ -5,7 +5,15 @@ package com.djtech.demsoccer.utils;
  */
 
 public class NewsModel {
-    private String titleText, descriptionText, timeText, imageLink;
+    private String titleText;
+    private String descriptionText;
+    private String timeText;
+    private String imageLink;
+    private String newsLink;
+
+    public String getNewsLink() {
+        return newsLink;
+    }
     public String getTitleText() {
         return titleText;
     }
@@ -23,11 +31,12 @@ public class NewsModel {
     }
 
 
-    public NewsModel(String titleText, String descriptionText, String timeText, String imageLink) {
+    public NewsModel(String titleText, String descriptionText, String newsLink, String timeText, String imageLink) {
         this.titleText = titleText;
         this.descriptionText = descriptionText;
         this.timeText = timeText;
         this.imageLink = imageLink;
+        this.newsLink = newsLink;
     }
 
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.djtech.demsoccer.R;
@@ -21,15 +22,20 @@ import java.util.ArrayList;
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.NewsViewHolder> {
 
-    String data;
-    ArrayList<NewsModel> newsModels;
-    Context context;
+    private ArrayList<NewsModel> newsModels;
+    private Context context;
+    private ClickedArticleInterface articleInterfaceObject;
 
-    public NewsRecyclerViewAdapter(Context context,ArrayList<NewsModel> newsModels){
-        this.data = data;
+    public NewsRecyclerViewAdapter(Context context,ArrayList<NewsModel> newsModels, ClickedArticleInterface articleInterfaceObject){
         this.newsModels = newsModels;
         this.context = context;
+        this.articleInterfaceObject = articleInterfaceObject;
     }
+
+    public interface ClickedArticleInterface{
+        void articleClicked(int position, String newslink);
+    }
+
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item_layout, parent, false);
@@ -37,12 +43,22 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, int position) {
+    public void onBindViewHolder(final NewsViewHolder holder, int position) {
         holder.titleText.setText(newsModels.get(position).getTitleText());
 
         holder.descriptionText.setText(newsModels.get(position).getDescriptionText());
         holder.timeText.setText(newsModels.get(position).getTimeText());
         Picasso.with(context).load(newsModels.get(position).getImageLink()).into(holder.newsImage);
+
+        holder.linearLayout.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        articleInterfaceObject.articleClicked(holder.getAdapterPosition(), newsModels.get(holder.getAdapterPosition()).getNewsLink());
+                    }
+                }
+        );
+
     }
 
     @Override
@@ -53,12 +69,14 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     public class NewsViewHolder extends RecyclerView.ViewHolder{
         private TextView titleText, descriptionText, timeText;
         private ImageView newsImage;
+        private LinearLayout linearLayout;
         public NewsViewHolder(View itemView) {
             super(itemView);
             titleText = (TextView) itemView.findViewById(R.id.title_textview);
             descriptionText = (TextView) itemView.findViewById(R.id.description_textview);
             timeText = (TextView) itemView.findViewById(R.id.time_textview);
             newsImage = (ImageView) itemView.findViewById(R.id.newsImage);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.news_root_layout);
         }
     }
 }

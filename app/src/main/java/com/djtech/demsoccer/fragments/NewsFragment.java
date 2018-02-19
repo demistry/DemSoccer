@@ -3,6 +3,7 @@ package com.djtech.demsoccer.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import com.djtech.demsoccer.R;
 import com.djtech.demsoccer.adapters.NewsRecyclerViewAdapter;
 import com.djtech.demsoccer.network.NewsNetworkQueryClass;
+import com.djtech.demsoccer.utils.ConstantsClass;
 import com.djtech.demsoccer.utils.NewsModel;
 import com.djtech.demsoccer.utils.NewsSingleton;
 
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallbacks<String> {
+public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallbacks<String>, NewsRecyclerViewAdapter.ClickedArticleInterface {
 
     private RecyclerView newsRecyclerView;
     private NewsRecyclerViewAdapter adapter;
@@ -44,7 +46,7 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
         newsProgressBar = (ProgressBar) view.findViewById(R.id.news_progress_bar);
         arrayList = new ArrayList<>();
 
-        getLoaderManager().initLoader(0, null, this).forceLoad();
+        getLoaderManager().initLoader(ConstantsClass.NEWS_LOADER_ID, null, this).forceLoad();
         //Log.v("David", NewsNetworkQueryClass.queryNewsLink());
         return view;
     }
@@ -53,8 +55,8 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
     public void onResume() {
         super.onResume();
         if(NewsSingleton.getInstance().getArrayList()!=null){
-            getLoaderManager().initLoader(0, null, this).cancelLoad();
-            adapter = new NewsRecyclerViewAdapter(this.getContext(),NewsSingleton.getInstance().getArrayList());
+            getLoaderManager().initLoader(ConstantsClass.NEWS_LOADER_ID, null, this).cancelLoad();
+            adapter = new NewsRecyclerViewAdapter(this.getContext(),NewsSingleton.getInstance().getArrayList(), this);
             newsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
             newsRecyclerView.setAdapter(adapter);
         }
@@ -70,7 +72,7 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
         Log.v("David", data);
         arrayList = NewsNetworkQueryClass.processJSON(data);
         NewsSingleton.getInstance().setArrayList(arrayList);
-        adapter = new NewsRecyclerViewAdapter(this.getContext(),arrayList);
+        adapter = new NewsRecyclerViewAdapter(this.getContext(),arrayList, this);
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         newsRecyclerView.setAdapter(adapter);
     }
@@ -78,6 +80,18 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
     @Override
     public void onLoaderReset(Loader<String> loader) {
         loader.reset();
+    }
+
+    @Override
+    public void articleClicked(int position, String newslink) {
+        Bundle linkBundle = new Bundle();
+        linkBundle.putString(ConstantsClass.NEWS_FRAG_BUNDLE, newslink);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        Fragment newsViewFrag = new NewsViewFragment();
+        newsViewFrag.setArguments(linkBundle);
+        transaction.replace(R.id.news_fragment_root_container, newsViewFrag);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
