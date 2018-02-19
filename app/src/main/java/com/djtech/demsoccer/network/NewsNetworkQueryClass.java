@@ -71,9 +71,11 @@ public class NewsNetworkQueryClass extends AsyncTaskLoader<String> {
         bar.setVisibility(View.GONE);
     }
 
+
+
     public static ArrayList<NewsModel> processJSON(String jsonString){
         arrayList = new ArrayList<>();
-        String titleText, descriptionText, timeText, imageLink;
+        String titleText, descriptionText, timeText, imageLink, dateText, dateTimeFormat, finalDateTimeString;
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONArray array = object.getJSONArray("articles");
@@ -82,8 +84,13 @@ public class NewsNetworkQueryClass extends AsyncTaskLoader<String> {
                 titleText = object1.getString("title");
                 descriptionText = object1.getString("description");
                 imageLink = object1.getString("urlToImage");
-                timeText = object1.getString("publishedAt");
-                arrayList.add(new NewsModel(titleText, descriptionText, timeText, imageLink));
+                dateTimeFormat = object1.getString("publishedAt");
+                timeText = dateTimeFormat.substring(11, dateTimeFormat.length()-1);
+                dateText = dateTimeFormat.substring(0,10);
+                finalDateTimeString = timeText + "\n" + dateText;
+
+
+                arrayList.add(new NewsModel(titleText, descriptionText, finalDateTimeString, imageLink));
             }
 
         } catch (JSONException e) {

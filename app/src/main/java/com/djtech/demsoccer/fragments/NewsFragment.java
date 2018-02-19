@@ -29,6 +29,8 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
     private RecyclerView newsRecyclerView;
     private NewsRecyclerViewAdapter adapter;
     private ArrayList<NewsModel> arrayList;
+    private ProgressBar newsProgressBar;
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -39,6 +41,7 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_fragment_layout, container, false);
         newsRecyclerView = (RecyclerView) view.findViewById(R.id.newsRecyclerView);
+        newsProgressBar = (ProgressBar) view.findViewById(R.id.news_progress_bar);
         arrayList = new ArrayList<>();
 
         getLoaderManager().initLoader(0, null, this).forceLoad();
@@ -59,7 +62,7 @@ public class NewsFragment extends Fragment implements  LoaderManager.LoaderCallb
 
     @Override
     public Loader<String> onCreateLoader(int id, Bundle args) {
-        return new NewsNetworkQueryClass(this.getContext(), new ProgressBar(this.getContext()));
+        return new NewsNetworkQueryClass(this.getContext(), newsProgressBar);
     }
 
     @Override
