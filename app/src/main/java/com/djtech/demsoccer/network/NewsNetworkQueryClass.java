@@ -14,7 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -73,26 +75,30 @@ public class NewsNetworkQueryClass extends AsyncTaskLoader<String> {
 
 
 
-    public static ArrayList<NewsModel> processJSON(String jsonString){
+    public static List<NewsModel> processJSON(String jsonString){
         arrayList = new ArrayList<>();
         String titleText, descriptionText, timeText, imageLink, dateText, dateTimeFormat, finalDateTimeString, newsLink;
         try {
-            JSONObject object = new JSONObject(jsonString);
-            JSONArray array = object.getJSONArray("articles");
-            for (int i = 0; i<array.length(); i++){
-                JSONObject object1 = array.getJSONObject(i);
-                titleText = object1.getString("title");
-                descriptionText = object1.getString("description");
-                imageLink = object1.getString("urlToImage");
-                dateTimeFormat = object1.getString("publishedAt");
-                newsLink = object1.getString("url");
-                timeText = dateTimeFormat.substring(11, dateTimeFormat.length()-1);
-                dateText = dateTimeFormat.substring(0,10);
-                finalDateTimeString = timeText + "\n" + dateText;
+            if (jsonString!=null){
+                JSONObject object = new JSONObject(jsonString);
+                JSONArray array = object.getJSONArray("articles");
+                for (int i = 0; i<array.length(); i++){
+                    JSONObject object1 = array.getJSONObject(i);
+                    titleText = object1.getString("title");
+                    descriptionText = object1.getString("description");
+                    imageLink = object1.getString("urlToImage");
+                    dateTimeFormat = object1.getString("publishedAt");
+                    newsLink = object1.getString("url");
+                    timeText = dateTimeFormat.substring(11, dateTimeFormat.length()-1);
+                    dateText = dateTimeFormat.substring(0,10);
+                    finalDateTimeString = timeText + "\n" + dateText;
 
 
-                arrayList.add(new NewsModel(titleText, descriptionText, newsLink, finalDateTimeString, imageLink));
+
+                    arrayList.add(new NewsModel(titleText, descriptionText, newsLink, finalDateTimeString, imageLink));
+                }
             }
+
 
         } catch (JSONException e) {
             e.printStackTrace();

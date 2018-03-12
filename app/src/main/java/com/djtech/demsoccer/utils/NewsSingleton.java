@@ -1,6 +1,7 @@
 package com.djtech.demsoccer.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ILENWABOR DAVID on 18/02/2018.
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public class NewsSingleton {
 
-    private ArrayList<NewsModel> arrayList;
+    private List<NewsModel> arrayList;
     private static final NewsSingleton ourInstance = new NewsSingleton();
 
     public static NewsSingleton getInstance() {
@@ -17,11 +18,11 @@ public class NewsSingleton {
 
     private NewsSingleton() {
     }
-    public ArrayList<NewsModel> getArrayList() {
+    public List<NewsModel> getArrayList() {
         return arrayList;
     }
 
-    public void setArrayList(ArrayList<NewsModel> arrayList) {
+    public void setArrayList(List<NewsModel> arrayList) {
         this.arrayList = arrayList;
     }
 }
